@@ -51,7 +51,8 @@ const DISHES: Dish[] = [
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  dishes = DISHES
+  dishes: Dish[] = DISHES
+  selectedDish: Dish = DISHES[0];
 
   constructor() { }
 

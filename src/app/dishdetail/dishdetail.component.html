@@ -25,7 +25,7 @@
   </div>
 
   <div fxFlex="40">
-    <div fxFlex *ngIf="dish">
+    <div fxFlex *ngIf="dish.comments">
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -40,8 +40,6 @@
             <h1 matLine>-- {{comment.author}} {{comment.date | date}}</h1>
           </mat-list-item>
         </mat-list>
-
-
       </mat-card>
     </div>
   </div>

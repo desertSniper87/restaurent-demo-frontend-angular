@@ -25,6 +25,10 @@ import { DishService } from "./services/dish.service";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { LoginComponent } from './login/login.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatCheckbox, MatCheckboxModule } from "@angular/material/checkbox";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -50,7 +54,11 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatCardModule,
     MatButtonModule,
     AppRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FormsModule
   ],
   providers: [
     DishService

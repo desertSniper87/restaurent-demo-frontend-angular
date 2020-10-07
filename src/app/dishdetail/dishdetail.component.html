@@ -6,8 +6,7 @@
      fxLayoutGap="10px"
      fxLayoutGap.xs="0">
 
-  <div *ngIf="dish">
-    <div fxFlex="40" *ngIf="dish">
+    <div fxFlex *ngIf="dish">
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -24,7 +23,11 @@
       </mat-card>
     </div>
 
-    <div fxFlex="40" *ngIf="dish.comments">
+    <div fxFlex [hidden]="dish">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div fxFlex *ngIf="dish && dish.comments">
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -41,6 +44,9 @@
         </mat-list>
       </mat-card>
     </div>
-  </div>
+
+    <div fxFlex [hidden]="dish">
+      <mat-spinner></mat-spinner>
+    </div>
 
 </div>

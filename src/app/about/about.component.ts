@@ -10,11 +10,10 @@ import { Dish } from "../../shared/dish";
 })
 export class AboutComponent implements OnInit {
   leaders: Leader[];
-  selectedLeader: Leader;
 
   constructor(private leaderService: LeaderService) { }
 
   ngOnInit() {
-    this.leaders = this.leaderService.getLeaders();
+    this.leaderService.getLeaders().then((ls) => this.leaders = ls);
   }
 }

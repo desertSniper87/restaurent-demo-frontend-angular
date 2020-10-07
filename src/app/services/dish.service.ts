@@ -27,7 +27,7 @@ export class DishService {
   getFeaturedDish(): Promise<Dish> {
     return new Promise(
       resolve => {
-        setTimeout(() => DISHES.filter((d) => (d.featured))[0], 2000)
+        setTimeout(() => resolve(DISHES.filter((d) => (d.featured))[0]), 2000)
       });
   }
 

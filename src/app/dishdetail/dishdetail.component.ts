@@ -38,6 +38,7 @@ export class DishdetailComponent implements OnInit {
 
   commentForm: FormGroup;
   comment: Comment;
+  nosComment: number;
   @ViewChild('cform') commentFormDirective;
 
   constructor(private dishService: DishService,
@@ -45,7 +46,7 @@ export class DishdetailComponent implements OnInit {
               private location: Location,
               private fb: FormBuilder,
               private datePipe: DatePipe) {
-    this.createForm()
+    this.createForm();
   }
 
   ngOnInit() {
@@ -58,6 +59,7 @@ export class DishdetailComponent implements OnInit {
       .subscribe(dish => {
         this.dish = dish;
         this.setPrevNext(dish.id);
+        this.nosComment = this.dish.comments.length;
       });
   }
 
@@ -68,6 +70,14 @@ export class DishdetailComponent implements OnInit {
   }
 
   onValueChanged(data?: any) {
+    let errorFound = this.handleAndCheckErrors(data);
+    if (!errorFound) {
+      this.populateComments(data);
+    }
+  }
+
+  private handleAndCheckErrors(data?: any): boolean{
+    let errorFound: boolean = false;
     if (!this.commentForm) { return; }
     const form = this.commentForm;
     for (const field in this.formErrors) {
@@ -78,13 +88,28 @@ export class DishdetailComponent implements OnInit {
         if (control && control.dirty && !control.valid) {
           const messages = this.validationMessages[field];
           for (const key in control.errors) {
-            debugger;
             if (control.errors.hasOwnProperty(key)) {
               this.formErrors[field] += messages[key] + ' ';
             }
           }
         }
+        if (control.errors !== null) {
+          errorFound = true;
+        }
       }
+    }
+    return errorFound;
+  }
+
+  private populateComments(data?: any) {
+    let comment = new Comment(data);
+    let l = this.dish.comments.length;
+
+    debugger
+    if (l !== this.nosComment){
+      this.dish.comments[l-1] = comment;
+    } else {
+      this.dish.comments.push(comment);
     }
   }
 
@@ -113,6 +138,8 @@ export class DishdetailComponent implements OnInit {
       date: new Date()
     });
     this.commentFormDirective.reset();
+    this.nosComment = this.dish.comments.length;
+    this.createForm();
   }
 
   goBackToMenu(): void {

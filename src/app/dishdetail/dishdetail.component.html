@@ -6,53 +6,79 @@
      fxLayoutGap="10px"
      fxLayoutGap.xs="0">
 
-    <div fxFlex *ngIf="dish">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <h3 *ngIf="dish">{{dish.name | titlecase}}</h3>
-          </mat-card-title>
-        </mat-card-header>
-        <img mat-card-image src="{{dish.image}}" alt="{{dish.name}}">
-        <p>{{dish.description}}</p>
-        <mat-card-actions>
-          <button mat-button [routerLink]="['/dishdetail', prev]">
-            <i class="fa fa-chevron-left fa-lg"></i>
-          </button>
-          <button mat-button>Like</button>
-          <button mat-button>Share</button>
-          <button mat-button (click)="goBackToMenu()">Menu</button>
-          <button mat-button [routerLink]="['/dishdetail', next]">
-            <i class="fa fa-chevron-right fa-lg"></i>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+  <div fxFlex *ngIf="dish">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3 *ngIf="dish">{{dish.name | titlecase}}</h3>
+        </mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="{{dish.image}}" alt="{{dish.name}}">
+      <p>{{dish.description}}</p>
+      <mat-card-actions>
+        <button mat-button [routerLink]="['/dishdetail', prev]">
+          <i class="fa fa-chevron-left fa-lg"></i>
+        </button>
+        <button mat-button>Like</button>
+        <button mat-button>Share</button>
+        <button mat-button (click)="goBackToMenu()">Menu</button>
+        <button mat-button [routerLink]="['/dishdetail', next]">
+          <i class="fa fa-chevron-right fa-lg"></i>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 
-    <div fxFlex [hidden]="dish">
-      <mat-spinner></mat-spinner>
-    </div>
+  <div fxFlex [hidden]="dish">
+    <mat-spinner></mat-spinner>
+  </div>
 
-    <div fxFlex *ngIf="dish && dish.comments">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            <h3>Comments</h3>
-          </mat-card-title>
-        </mat-card-header>
+  <div fxFlex *ngIf="dish">
+    <mat-card *ngIf="dish.comments">
+      <mat-card-header>
+        <mat-card-title>
+          <h3>Comments</h3>
+        </mat-card-title>
+      </mat-card-header>
 
-        <mat-list *ngFor="let comment of dish.comments">
-          <mat-list-item>
-            <h1 matLine>{{comment.comment}}</h1>
-            <h1 matLine>{{ comment.rating }} Stars</h1>
-            <h1 matLine>-- {{comment.author}} {{comment.date | date}}</h1>
-          </mat-list-item>
-        </mat-list>
-      </mat-card>
-    </div>
+      <mat-list *ngFor="let comment of dish.comments">
+        <mat-list-item>
+          <h1 matLine>{{comment.comment}}</h1>
+          <h1 matLine>{{ comment.rating }} Stars</h1>
+          <h1 matLine>-- {{comment.author}} {{comment.date | date}}</h1>
+        </mat-list-item>
+      </mat-list>
+    </mat-card>
 
-    <div fxFlex [hidden]="dish">
-      <mat-spinner></mat-spinner>
-    </div>
+    <mat-card>
+      <form novalidate #cform="ngForm" [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+        <p>
+          <mat-slider min="1" max="5" step="1" thumbLabel tickInterval="1" aria-placeholder="rating" name="rating" formControlName="rating"></mat-slider>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="author" minLength="4" placeholder="Name" type="text"  required>
+            <mat-error *ngIf="commentForm.get('author').errors && commentForm.get('author').touched">{{formErrors.author}}</mat-error>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput formControlName="comment" placeholder="Your Comment" rows=12 required></textarea>
+            <mat-error *ngIf="commentForm.get('comment').hasError('required') && commentForm.get('comment').touched">{{formErrors.comment}}</mat-error>
+          </mat-form-field>
+        </p>
+        <button type="submit"
+                mat-button
+                class="background-primary text-floral-white"
+                [disabled]="commentForm.invalid">Submit
+        </button>
+      </form>
+    </mat-card>
+
+  </div>
+
+  <div fxFlex [hidden]="dish">
+    <mat-spinner></mat-spinner>
+  </div>
 
 </div>
